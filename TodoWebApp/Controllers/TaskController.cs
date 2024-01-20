@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TodoWebApp.Controllers;
 
-public class TaskController : Controller
+public class TaskController : BaseController
 {
     private readonly ITaskHandler _taskHandler;
 
@@ -17,42 +17,41 @@ public class TaskController : Controller
     public async Task<IActionResult> TaskList()
     {
         var result = await _taskHandler.GetTaskListAsync();
-        return View(result);
+        return View(result.Value);
     }
     
-    [HttpGet("{id}")]
-    public async Task<IActionResult> TaskDetails(Guid id)
-    {
-        var result = await _taskHandler.GetTaskAsync(id);
-        return View(result);
-    }
+    // [HttpGet("{id}")]
+    // public async Task<IActionResult> TaskDetails(Guid id)
+    // {
+    //     var result = await _taskHandler.GetTaskAsync(id);
+    //     return View(result);
+    // }
     
     [HttpPost]
-    public async Task<IActionResult> CreateTask(TaskDto taskDto)
+    public async Task<IActionResult> CreateTask([FromBody] TaskDto taskDto)
     {
-        var result = await _taskHandler.CreateTaskAsync(taskDto);
-        return View(result);
+        return HandleResult(await _taskHandler.CreateTaskAsync(taskDto));
     }
     
-    [HttpPut("{id}")]
-    public async Task<IActionResult> EditTask(Guid id, TaskDto taskDto)
-    {
-        taskDto.Id = id;
-        var result = await _taskHandler.EditTaskAsync(taskDto);
-        return View(result);
-    }
-
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteTask(Guid id)
-    {
-        var result = await _taskHandler.DeleteTaskAsync(id);
-        return View(result);
-    }
-    
-    [HttpPut("mark/{id}")]
-    public async Task<IActionResult> MarkTask(Guid id, [FromBody]bool isDone)
-    {
-        var result = await _taskHandler.MarkTaskAsync(id, isDone);
-        return View(result);
-    }
+    // [HttpPut("{id}")]
+    // public async Task<IActionResult> EditTask(Guid id, TaskDto taskDto)
+    // {
+    //     taskDto.Id = id;
+    //     var result = await _taskHandler.EditTaskAsync(taskDto);
+    //     return View(result);
+    // }
+    //
+    // [HttpDelete("{id}")]
+    // public async Task<IActionResult> DeleteTask(Guid id)
+    // {
+    //     var result = await _taskHandler.DeleteTaskAsync(id);
+    //     return View(result);
+    // }
+    //
+    // [HttpPut("mark/{id}")]
+    // public async Task<IActionResult> MarkTask(Guid id, [FromBody]bool isDone)
+    // {
+    //     var result = await _taskHandler.MarkTaskAsync(id, isDone);
+    //     return View(result);
+    // }
 }

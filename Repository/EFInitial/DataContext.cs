@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Task = Models.Task;
 
 namespace Repository.EFInitial
 {

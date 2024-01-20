@@ -52,6 +52,13 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller}=task/{action}=list/{id?}");
+
+//migrating and seeding
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+var context = services.GetRequiredService<DataContext>();
+await context.Database.MigrateAsync();
+await Seed.SeedData(context);
 
 app.Run();
