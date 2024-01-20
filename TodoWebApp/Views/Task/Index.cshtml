@@ -1,0 +1,27 @@
+@using Application.DTOs
+
+@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+</head>
+<body>
+<div class="container-md">
+        
+    <div class="container-sm" style="width: 80%">
+        @await Html.PartialAsync("_CreateTask.cshtml", new TaskDto())
+    </div>
+        
+    <ol class="list-group list-group-numbered" id="taskList">
+        
+    </ol>
+        
+       
+</div>
+</body>
+</html>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TodoWebApp.Controllers;
 
+[Route("Task")]
 public class TaskController : BaseController
 {
     private readonly ITaskHandler _taskHandler;
@@ -13,11 +14,17 @@ public class TaskController : BaseController
         _taskHandler = taskHandler;
     }
     
-    [HttpGet("list")]
+    public IActionResult Index()
+    {
+        return View();
+    }
+    
+    [HttpGet("List")]
     public async Task<IActionResult> TaskList()
     {
         var result = await _taskHandler.GetTaskListAsync();
-        return View(result.Value);
+        //return View(result.Value);
+        return Json(result.Value);
     }
     
     // [HttpGet("{id}")]
@@ -33,25 +40,22 @@ public class TaskController : BaseController
         return HandleResult(await _taskHandler.CreateTaskAsync(taskDto));
     }
     
-    // [HttpPut("{id}")]
-    // public async Task<IActionResult> EditTask(Guid id, TaskDto taskDto)
-    // {
-    //     taskDto.Id = id;
-    //     var result = await _taskHandler.EditTaskAsync(taskDto);
-    //     return View(result);
-    // }
-    //
-    // [HttpDelete("{id}")]
-    // public async Task<IActionResult> DeleteTask(Guid id)
-    // {
-    //     var result = await _taskHandler.DeleteTaskAsync(id);
-    //     return View(result);
-    // }
-    //
-    // [HttpPut("mark/{id}")]
-    // public async Task<IActionResult> MarkTask(Guid id, [FromBody]bool isDone)
-    // {
-    //     var result = await _taskHandler.MarkTaskAsync(id, isDone);
-    //     return View(result);
-    // }
+    [HttpPut("{id}")]
+    public async Task<IActionResult> EditTask(Guid id, TaskDto taskDto)
+    {
+        taskDto.Id = id;
+        return HandleResult(await _taskHandler.EditTaskAsync(taskDto));
+    }
+    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteTask(Guid id)
+    {
+        return HandleResult(await _taskHandler.DeleteTaskAsync(id));
+    }
+    
+    [HttpPut("mark/{id}")]
+    public async Task<IActionResult> MarkTask(Guid id, [FromBody]bool isDone)
+    {
+        return HandleResult(await _taskHandler.MarkTaskAsync(id, isDone));
+    }
 }
