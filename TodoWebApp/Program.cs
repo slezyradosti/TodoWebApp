@@ -1,4 +1,5 @@
 using Application.Core;
+using Application.Handlers.Task;
 using Microsoft.EntityFrameworkCore;
 using Repository.EFInitial;
 using Repository.Repos;
@@ -14,8 +15,10 @@ builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+builder.Services.AddScoped<ITaskHandler, TaskHandler>();
+
 
 builder.Services.AddCors(options =>
 {
