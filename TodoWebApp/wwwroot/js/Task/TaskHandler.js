@@ -54,7 +54,7 @@ function loadData() {
 
 //Add Data Function
 function Add() {
-    var result = validate();
+    var result = validateAdd();
     if (result == false) {
         return false;
     }
@@ -78,18 +78,6 @@ function Add() {
             alert(errormessage.responseText);
         }
     });
-}
-
-function validate() {
-    var isValid = true;
-    if ($('#taskDetails').val().trim() == "") {
-        $('#taskDetails').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#taskDetails').css('border-color', 'lightgrey');
-    }
-    return isValid;
 }
 
 //Function for getting the Data Based upon Employee ID
@@ -120,6 +108,11 @@ function getbyID(id) {
 
 //function for updating employee's record
 function Update() {
+    var result = validateEdit();
+    if (result == false) {
+        return false;
+    }
+    
     var task = {
         Id: $('#taskIdEdit').val(),
         Details: $('#taskDetailsEditInput').val(),

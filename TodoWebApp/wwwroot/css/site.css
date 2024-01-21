@@ -24,3 +24,15 @@ body {
 nav {
   background-color: #b2d0f7;
 }
+
+/*-----------ERROR CSS -----------------*/
+.error{
+  display: none;
+  margin-left: 10px;
+}
+
+.error_show{
+  display: block !important;
+  color: red;
+  margin-left: 10px;
+}

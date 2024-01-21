@@ -1,9 +1,12 @@
 @model Application.DTOs.TaskDto
 
-<div class="input-group input-group-lg mb-5">
-    
-    <input type="text" class="form-control border border-primary" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" id="taskDetails">
-    
+<div class="mb-5">
+    <div class="input-group input-group-lg " xmlns="http://www.w3.org/1999/html">
+        <input type="text" class="form-control border border-primary" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" id="taskDetails" required>
         <button class="input-group-button ps-5 pe-5 btn btn-outline-primary" id="inputGroup-sizing-lg" type="submit" onclick="Add()"> Add </button>
-    
+    </div>
+    <div class="error" id="inputDetailsError">
+        This field is required
+    </div>
 </div>
+
