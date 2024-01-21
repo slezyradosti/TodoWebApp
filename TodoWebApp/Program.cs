@@ -52,7 +52,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller}=task/{action}=list/{id?}");
+    pattern: "{controller=Task}/{action=Index}/{id?}");
 
 //migrating and seeding
 using var scope = app.Services.CreateScope();

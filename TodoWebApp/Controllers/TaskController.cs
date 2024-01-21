@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TodoWebApp.Controllers;
 
-[Route("Task")]
 public class TaskController : BaseController
 {
     private readonly ITaskHandler _taskHandler;
@@ -28,32 +27,32 @@ public class TaskController : BaseController
         return HandleResult(await _taskHandler.GetTaskListAsync());
     }
     
-    [HttpGet("{id}")]
+    [HttpGet("Task/{id}")]
     public async Task<IActionResult> TaskDetails(Guid id)
     {
         return HandleResult(await _taskHandler.GetTaskAsync(id));
     }
     
-    [HttpPost]
+    [HttpPost("Task")]
     public async Task<IActionResult> CreateTask([FromBody] TaskDto taskDto)
     {
         return HandleResult(await _taskHandler.CreateTaskAsync(taskDto));
     }
     
-    [HttpPut("{id}")]
+    [HttpPut("Task/{id}")]
     public async Task<IActionResult> EditTask(Guid id, [FromBody] TaskDto taskDto)
     {
         taskDto.Id = id;
         return HandleResult(await _taskHandler.EditTaskAsync(taskDto));
     }
     
-    [HttpDelete("{id}")]
+    [HttpDelete("Task/{id}")]
     public async Task<IActionResult> DeleteTask(Guid id)
     {
         return HandleResult(await _taskHandler.DeleteTaskAsync(id));
     }
     
-    [HttpPut("mark/{id}")]
+    [HttpPut("Task/Mark/{id}")]
     public async Task<IActionResult> MarkTask(Guid id, [FromBody]bool isDone)
     {
         return HandleResult(await _taskHandler.MarkTaskAsync(id, isDone));
