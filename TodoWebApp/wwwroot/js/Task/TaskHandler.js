@@ -55,7 +55,9 @@ function loadData() {
 
 function loadTaskList(result){
     let html = '';
-    $.each(result, function (key, item) {
+    $.each(result.value, function (key, item) {
+        console.log("tasklist Item " + item)
+        
         html += '<li class="list-group-item d-flex justify-content-between align-items-center">';
         html += '<div class="ms-2 me-auto">';
         html += '<div class="form-check form-switch">';
@@ -108,7 +110,7 @@ function Add() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            loadData();
+            SortDataAndLoad();
             // $('#myModal').modal('hide');
             clearTextBox();
         },
@@ -159,7 +161,7 @@ function Update() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            loadData();
+            SortDataAndLoad();
             $('#taskDetails').val("");
             $('#exampleModal').modal('hide');
         },
@@ -178,7 +180,7 @@ function Delete(Id) {
             contentType: "application/json;charset=UTF-8",
             dataType: "json",
             success: function (result) {
-                loadData();
+                SortDataAndLoad();
             },
             error: function (errormessage) {
                 alert(errormessage.responseText);
@@ -199,7 +201,7 @@ function Mark(taskId) {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            loadData();
+            SortDataAndLoad();
             $('#taskDetails').val("");
         },
         error: function (errormessage) {
@@ -218,12 +220,23 @@ $('#myModal').on('shown.bs.modal', function () {
     $('#myInput').trigger('focus')
 })
 
-$("#dropdownTaskFilter").change(function(){
-    let value = this.value;
-    alert(value);
+$(".dropdown-menu a").click(function(){
+    let text = $(this).text();
+    let value = ConverrDropdownText(text);
+
+    // save filter to localStorage
+    localStorage.setItem('taskFilter', value);
+    
+    SortDataAndLoad()
+});
+
+function SortDataAndLoad(){
+    let value = localStorage.getItem('taskFilter');
+    
+    if (value == null ||  value.trim() == "" || value == "show_all" ) return loadData();
 
     $.ajax({
-        url: "/Task/List/Filter/filter?filterOption=" + value,
+        url: "/Task/List/Filter?option=" + value,
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -235,4 +248,18 @@ $("#dropdownTaskFilter").change(function(){
             alert(errormessage.responseText);
         }
     });
-});
+}
+
+function ConverrDropdownText(text){
+    let result = 'show_all';
+    
+    if (text == "Show pending"){
+        result = "show_pending"
+    }
+    else if (text == "Show completed"){
+        result = "show_completed"
+    }
+
+    
+    return result;
+}

@@ -60,14 +60,14 @@ public class TaskController : BaseController
     }
     
     [HttpGet("List/Filter")]
-    public async Task<IActionResult> TaskFilteredList([FromQuery] string filterOption)
+    public async Task<IActionResult> TaskFilteredList([FromQuery] string option)
     {
         Result<List<TaskDto>> result = new Result<List<TaskDto>>();
-        if (filterOption == "show_pending")
+        if (option == "show_pending")
         {
             result = await _taskHandler.GetPendingTaskListAsync();
         }
-        else if (filterOption == "show_completed")
+        else if (option == "show_completed")
         {
             result = await _taskHandler.GetCompletedTaskListAsync();
         }
