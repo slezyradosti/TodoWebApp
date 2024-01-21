@@ -16,12 +16,21 @@ function loadData() {
                 html += '<li class="list-group-item d-flex justify-content-between align-items-start">';
                     html += '<div class="ms-2 me-auto">';
                         html += '<div class="form-check form-switch">';
-                            html += '<input class="form-check-input" type="checkbox" value="" id="flexSwitchCheckDefault">';
-                            html +=   item.details + '</br>';
+                        
+                        let checkboxId = "checkbox" + item.id;
+                        if (item.isDone) {
+                            html += '<input class="form-check-input" type="checkbox" value="" id="'+checkboxId+'" onchange=Mark("'+item.id+'") checked>';
+                        }
+                        else {
+                            html += '<input class="form-check-input" type="checkbox" value="" id="'+checkboxId+'" onchange=Mark("'+item.id+'") >';
+                        }
+                            
+                        html +=   item.details + '</br>';
+                        
                     html += '</div>';
                 html += '</div>';
                 html += '<span class="badge bg-primary rounded-pill">';
-                    html += '<button href="#" onclick="return getbyID(' + String(item.id) + ')">Edit</button>'
+                    html += '<button href="#" onclick="return getbyID("'+item.id+'")">Edit</button>'
                 html += '</span>';
                 html += '<span class="badge bg-primary rounded-pill">';
                     html +=  '<button href="#" onclick=Delete("'+item.id+'")>Delete</button>'
@@ -109,11 +118,6 @@ function getbyID(EmpID) {
 
 //function for updating employee's record
 function Update() {
-    var res = validate();
-    if (res == false) {
-        return false;
-    }
-    
     var task = {
         Details: $('#taskDetails').val(),
     };
@@ -136,9 +140,7 @@ function Update() {
 
 //function for deleting employee's record
 function Delete(Id) {
-    
     const stringId = String(Id);
-    console.log(stringId)
         $.ajax({
             url: "/Task/" + stringId,
             type: "DELETE",
@@ -151,6 +153,28 @@ function Delete(Id) {
                 alert(errormessage.responseText);
             }
         });
+}
+
+function Mark(taskId) {
+    const stringId = String(taskId);
+
+    let checkbox = document.getElementById(`checkbox${stringId}`);
+    let state = checkbox.checked;
+
+    $.ajax({
+        url: "/Task/Mark/" + stringId,
+        data: JSON.stringify(state),
+        type: "PUT",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            loadData();
+            $('#taskDetails').val("");
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
 }
 
 //Function for clearing the textboxes
