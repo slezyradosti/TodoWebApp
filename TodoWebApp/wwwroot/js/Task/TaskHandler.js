@@ -6,7 +6,7 @@ $(document).ready(function () {
 //Load Data function
 function loadData() {
     $.ajax({
-        url: "/Task/List",
+        url: "/List",
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -31,13 +31,7 @@ function loadData() {
                     html += '</div>';
                 html += '</div>';
                 
-                //edit
-                // html += '<span class="badge bg-primary rounded-pill">';
-                //     html += '<button href="#" onclick="return getbyID("'+item.id+'")">Edit</button>'
-                // html += '</span>';
-                <!-- Button trigger modal -->
-                
-                // working
+                // editing
                 html += '<button class="btn btn-outline-warning "  href="#" onclick=getbyID("'+item.id+'")>Edit</button>'
                 
                 // delete
@@ -129,6 +123,7 @@ function getbyID(id) {
         dataType: "json",
         success: function (result) {
             $('#taskIdEdit').val(result.value.id);
+            $('#taskIsDone').val(result.value.isDone);
             $('#taskDetailsEditInput').val(result.value.details);
             
             $('#exampleModal').modal('show');
@@ -152,6 +147,7 @@ function Update() {
     var task = {
         Id: $('#taskIdEdit').val(),
         Details: $('#taskDetailsEditInput').val(),
+        IsDone: $('#taskIsDone').val(),
     };
     
     $.ajax({
@@ -236,7 +232,7 @@ function SortDataAndLoad(){
     if (value == null ||  value.trim() == "" || value == "show_all" ) return loadData();
 
     $.ajax({
-        url: "/Task/List/Filter?option=" + value,
+        url: "/List/Filter?option=" + value,
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
