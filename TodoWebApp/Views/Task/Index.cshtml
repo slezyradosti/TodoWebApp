@@ -19,7 +19,20 @@
     <div class="container-sm" style="width: 80%">
         @await Html.PartialAsync("_CreateTask.cshtml", new TaskDto())
     </div>
-
+    
+    @* filter dropdown *@
+    <div class="dropdown" id="dropdownTaskFilter">
+      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Filter
+      </a>
+    
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#" value="show_all">Show all</a></li>
+        <li><a class="dropdown-item" href="#" value="show_pending">Show pending</a></li>
+        <li><a class="dropdown-item" href="#" value="show_completed">Show completed</a></li>
+      </ul>
+    </div>
+    
     <ol class="list-group list-group-numbered" id="taskList">
 
     </ol>

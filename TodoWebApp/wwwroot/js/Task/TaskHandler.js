@@ -12,7 +12,8 @@ function loadData() {
         dataType: "json",
         success: function (result) {
             var html = '';
-            $.each(result, function (key, item) {
+            
+            $.each(result.value, function (key, item) {
                 html += '<li class="list-group-item d-flex justify-content-between align-items-center">';
                     html += '<div class="ms-2 me-auto">';
                         html += '<div class="form-check form-switch">';
@@ -52,6 +53,43 @@ function loadData() {
     });
 }
 
+function loadTaskList(result){
+    let html = '';
+    $.each(result, function (key, item) {
+        html += '<li class="list-group-item d-flex justify-content-between align-items-center">';
+        html += '<div class="ms-2 me-auto">';
+        html += '<div class="form-check form-switch">';
+
+        let checkboxId = "checkbox" + item.id;
+        if (item.isDone) {
+            html += '<input class="form-check-input" type="checkbox" value="" id="'+checkboxId+'" onchange=Mark("'+item.id+'") checked>';
+            html +=  '<s>' + item.details + '</s>' + '</br>';
+        }
+        else {
+            html += '<input class="form-check-input" type="checkbox" value="" id="'+checkboxId+'" onchange=Mark("'+item.id+'") >';
+            html +=   item.details + '</br>';
+        }
+
+        html += '</div>';
+        html += '</div>';
+
+        //edit
+        // html += '<span class="badge bg-primary rounded-pill">';
+        //     html += '<button href="#" onclick="return getbyID("'+item.id+'")">Edit</button>'
+        // html += '</span>';
+        <!-- Button trigger modal -->
+
+        // working
+        html += '<button class="btn btn-outline-warning "  href="#" onclick=getbyID("'+item.id+'")>Edit</button>'
+
+        // delete
+        html +=  '<button class="btn btn-outline-danger  ms-3" href="#" onclick=Delete("'+item.id+'")>Delete</button>'
+
+        html += '</tr>';
+    });
+    $('#taskList').html(html);
+}
+
 //Add Data Function
 function Add() {
     var result = validateAdd();
@@ -80,12 +118,8 @@ function Add() {
     });
 }
 
-//Function for getting the Data Based upon Employee ID
+//Function for getting the Data Based upon  ID
 function getbyID(id) {
-    $('#Name').css('border-color', 'lightgrey');
-    $('#Age').css('border-color', 'lightgrey');
-    $('#State').css('border-color', 'lightgrey');
-    $('#Country').css('border-color', 'lightgrey');
     $.ajax({
         url: "/Task/" + id,
         typr: "GET",
@@ -106,7 +140,7 @@ function getbyID(id) {
     return false;
 }
 
-//function for updating employee's record
+//function for updating 
 function Update() {
     var result = validateEdit();
     if (result == false) {
@@ -177,8 +211,28 @@ function Mark(taskId) {
 //Function for clearing the textboxes
 function clearTextBox() {
     $('#taskDetails').val("");
+    $('#taskDetailsEditInput').val("");
 }
 
 $('#myModal').on('shown.bs.modal', function () {
     $('#myInput').trigger('focus')
 })
+
+$("#dropdownTaskFilter").change(function(){
+    let value = this.value;
+    alert(value);
+
+    $.ajax({
+        url: "/Task/List/Filter/filter?filterOption=" + value,
+        type: "GET",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result)
+        {
+            loadTaskList(result);
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+});
