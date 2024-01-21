@@ -13,7 +13,7 @@ function loadData() {
         success: function (result) {
             var html = '';
             $.each(result, function (key, item) {
-                html += '<li class="list-group-item d-flex justify-content-between align-items-start">';
+                html += '<li class="list-group-item d-flex justify-content-between align-items-center">';
                     html += '<div class="ms-2 me-auto">';
                         html += '<div class="form-check form-switch">';
                         
@@ -37,12 +37,10 @@ function loadData() {
                 <!-- Button trigger modal -->
                 
                 // working
-                html += '<button href="#" onclick=getbyID("'+item.id+'")>Edit</button>'
+                html += '<button class="btn btn-outline-warning "  href="#" onclick=getbyID("'+item.id+'")>Edit</button>'
                 
                 // delete
-                html += '<span class="badge bg-primary rounded-pill">';
-                    html +=  '<button href="#" onclick=Delete("'+item.id+'")>Delete</button>'
-                html += '</span>';
+                html +=  '<button class="btn btn-outline-danger  ms-3" href="#" onclick=Delete("'+item.id+'")>Delete</button>'
                     
                 html += '</tr>';
             });
