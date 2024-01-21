@@ -15,7 +15,7 @@ public class BaseController : Controller
    }
    if (!result.IsSuccess)
    {
-       return Json( BadRequest(result.Error));
+       return Json( result.Error);
    }
    if (result.IsSuccess && result.Value == null)
    {
@@ -23,7 +23,7 @@ public class BaseController : Controller
    }
    if (result.IsSuccess && result.Value != null)
    {
-        return Json(Ok(result.Value));
+        return Json(result.Value);
    }
             
    return Json(BadRequest()); 
