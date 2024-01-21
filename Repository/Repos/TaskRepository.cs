@@ -14,5 +14,17 @@ namespace Repository.Repos
             =>  await Context.Task
                 .OrderBy(t => t.IsDone).ThenByDescending(t => t.IsDone ? t.UpdatedAt : t.CreatedAt)
                 .ToListAsync();
+        
+        public async Task<List<Task>> GetCompletedTaskSortedList()
+            =>  await Context.Task
+                .Where(t => t.IsDone)
+                .OrderByDescending(t =>  t.UpdatedAt)
+                .ToListAsync();
+        
+        public async Task<List<Task>> GetPendingTaskSortedList()
+            =>  await Context.Task
+                .Where(t => !t.IsDone)
+                .OrderByDescending(t => t.CreatedAt)
+                .ToListAsync();
     }
 }

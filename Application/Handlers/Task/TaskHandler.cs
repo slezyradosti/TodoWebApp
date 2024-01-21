@@ -86,5 +86,27 @@ namespace Application.Handlers.Task
             if (!result) return Result<string>.Failure("Failed to update Task");
             return Result<string>.Success("Successfully");
         }
+        
+        public async Task<Result<List<TaskDto>>> GetCompletedTaskListAsync()
+        {
+            var taskList = await _taskRepository.GetCompletedTaskSortedList();
+
+            List<TaskDto> taskDtoList = new List<TaskDto>();
+
+            _mapper.Map(taskList, taskDtoList);
+
+            return Result<List<TaskDto>>.Success(taskDtoList);
+        }
+        
+        public async Task<Result<List<TaskDto>>> GetPendingTaskListAsync()
+        {
+            var taskList = await _taskRepository.GetPendingTaskSortedList();
+
+            List<TaskDto> taskDtoList = new List<TaskDto>();
+
+            _mapper.Map(taskList, taskDtoList);
+
+            return Result<List<TaskDto>>.Success(taskDtoList);
+        }
     }
 }

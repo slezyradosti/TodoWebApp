@@ -11,5 +11,7 @@ namespace Application.Handlers.Task
         public Task<Result<string>> EditTaskAsync(TaskDto taskDto);
         public Task<Result<string>> DeleteTaskAsync(Guid taskId);
         public Task<Result<string>> MarkTaskAsync(Guid taskId, bool isDone);
+        public Task<Result<List<TaskDto>>> GetCompletedTaskListAsync();
+        public Task<Result<List<TaskDto>>> GetPendingTaskListAsync();
     }
 }

@@ -1,3 +1,4 @@
+using Application.Core;
 using Application.DTOs;
 using Application.Handlers.Task;
 using Microsoft.AspNetCore.Mvc;
@@ -21,10 +22,8 @@ public class TaskController : BaseController
     
     [HttpGet("List")]
     public async Task<IActionResult> TaskList()
-    {
-        var result = await _taskHandler.GetTaskListAsync();
-        //return View(result.Value);
-        return Json(result.Value);
+    { 
+        return HandleResult( await _taskHandler.GetTaskListAsync());
     }
     
     [HttpGet("{id}")]
@@ -56,5 +55,21 @@ public class TaskController : BaseController
     public async Task<IActionResult> MarkTask(Guid id, [FromBody]bool isDone)
     {
         return HandleResult(await _taskHandler.MarkTaskAsync(id, isDone));
+    }
+    
+    [HttpGet("List/Filter")]
+    public async Task<IActionResult> TaskFilteredList([FromQuery] string filterOption)
+    {
+        Result<List<TaskDto>> result = new Result<List<TaskDto>>();
+        if (filterOption == "show_pending")
+        {
+            result = await _taskHandler.GetPendingTaskListAsync();
+        }
+        else if (filterOption == "show_completed")
+        {
+            result = await _taskHandler.GetCompletedTaskListAsync();
+        }
+
+        return HandleResult(result);
     }
 }
