@@ -7,7 +7,7 @@ namespace TodoWebApp.Controllers;
 public class BaseController : Controller
 {
    [NonAction]
-   protected JsonResult HandleResult<T>(Result<T> result)
+   protected IActionResult HandleResult<T>(Result<T> result)
    {
    if (result == null)
    {
@@ -15,7 +15,7 @@ public class BaseController : Controller
    }
    if (!result.IsSuccess)
    {
-       return Json( result.Error);
+       return Json( BadRequest(result.Error));
    }
    if (result.IsSuccess && result.Value == null)
    {
@@ -23,7 +23,7 @@ public class BaseController : Controller
    }
    if (result.IsSuccess && result.Value != null)
    {
-        return Json(result.Value);
+        return Json(Ok(result.Value));
    }
             
    return Json(BadRequest()); 
