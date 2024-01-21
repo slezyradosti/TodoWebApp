@@ -14,7 +14,7 @@ public static class Seed
             [
                 new()
                 {
-                    Details = "Praise the Role",
+                    Details = "Praise the Lord",
                     IsDone = true
                 },
 

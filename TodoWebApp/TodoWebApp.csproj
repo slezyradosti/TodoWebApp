@@ -25,4 +25,8 @@
     <_ContentIncludedByDefault Remove="wwwroot\js\Models\Task.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Screens\" />
+  </ItemGroup>
+
 </Project>

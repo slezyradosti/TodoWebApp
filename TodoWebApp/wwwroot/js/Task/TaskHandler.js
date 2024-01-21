@@ -1,6 +1,6 @@
 //Load Data in Table when documents is ready
 $(document).ready(function () {
-    loadData();
+    SortDataAndLoad();
 });
 
 //Load Data function
