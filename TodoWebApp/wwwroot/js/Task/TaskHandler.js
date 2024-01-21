@@ -21,10 +21,10 @@ function loadData() {
                     html += '</div>';
                 html += '</div>';
                 html += '<span class="badge bg-primary rounded-pill">';
-                    html += '<a href="#" onclick="return getbyID(' + item.id + ')">Edit</a>'
+                    html += '<button href="#" onclick="return getbyID(' + String(item.id) + ')">Edit</button>'
                 html += '</span>';
                 html += '<span class="badge bg-primary rounded-pill">';
-                    html +=  '<a href="#" onclick="Delele(' + item.id + ')">Delete</a>'
+                    html +=  '<button href="#" onclick=Delete("'+item.id+'")>Delete</button>'
                 html += '</span>';
                 
                // html += '<td><a href="#" onclick="return getbyID(' + item.Id + ')">Edit</a> | <a href="#" onclick="Delele(' + item.Id + ')">Delete</a></td>';
@@ -58,6 +58,7 @@ function Add() {
         success: function (result) {
             loadData();
             // $('#myModal').modal('hide');
+            clearTextBox();
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -134,9 +135,12 @@ function Update() {
 }
 
 //function for deleting employee's record
-function Delele(Id) {
+function Delete(Id) {
+    
+    const stringId = String(Id);
+    console.log(stringId)
         $.ajax({
-            url: "/Task/" + Id,
+            url: "/Task/" + stringId,
             type: "DELETE",
             contentType: "application/json;charset=UTF-8",
             dataType: "json",
