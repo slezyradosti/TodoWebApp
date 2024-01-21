@@ -18,7 +18,7 @@ namespace Application.Handlers.Task
 
         public async Task<Result<List<TaskDto>>> GetTaskListAsync()
         {
-            var taskList = await _taskRepository.GetAllAsync();
+            var taskList = await _taskRepository.GetTaskSortedList();
 
             List<TaskDto> taskDtoList = new List<TaskDto>();
 

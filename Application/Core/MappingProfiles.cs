@@ -9,6 +9,7 @@ public class MappingProfiles : AutoMapper.Profile
     { 
         CreateMap<Task, TaskDto>();
         CreateMap<TaskDto, Task>()
-            .ForMember(x => x.CreatedAt, y => y.Ignore());
+            .ForMember(x => x.CreatedAt, y => y.Ignore())
+            .ForMember(x => x.UpdatedAt, y => y.Ignore());
     }
 }

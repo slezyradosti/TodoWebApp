@@ -43,6 +43,7 @@ namespace Repository.Repos
 
         public async Task<int> SaveAsync(T entity)
         {
+            entity.UpdatedAt = DateTime.UtcNow;
             _db.Entry(entity).State = EntityState.Modified;
             return await SaveChangesAsync();
         }
