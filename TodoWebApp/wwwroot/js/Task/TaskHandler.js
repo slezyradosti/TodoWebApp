@@ -11,7 +11,7 @@ function loadData() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            var html = '';
+            let html = '';
             
             $.each(result.value, function (key, item) {
                 html += '<li class="list-group-item d-flex justify-content-between align-items-center">';
@@ -31,7 +31,7 @@ function loadData() {
                     html += '</div>';
                 html += '</div>';
                 
-                // editing
+                // edit
                 html += '<button class="btn btn-outline-warning "  href="#" onclick=getbyID("'+item.id+'")>Edit</button>'
                 
                 // delete
@@ -69,13 +69,7 @@ function loadTaskList(result){
         html += '</div>';
         html += '</div>';
 
-        //edit
-        // html += '<span class="badge bg-primary rounded-pill">';
-        //     html += '<button href="#" onclick="return getbyID("'+item.id+'")">Edit</button>'
-        // html += '</span>';
-        <!-- Button trigger modal -->
-
-        // working
+        // edit
         html += '<button class="btn btn-outline-warning "  href="#" onclick=getbyID("'+item.id+'")>Edit</button>'
 
         // delete
@@ -114,7 +108,7 @@ function Add() {
     });
 }
 
-//Function for getting the Data Based upon  ID
+//Function for getting the Data Based upon ID
 function getbyID(id) {
     $.ajax({
         url: "/Task/" + id,
@@ -167,7 +161,7 @@ function Update() {
     });
 }
 
-//function for deleting employee's record
+//function for deleting
 function Delete(Id) {
     const stringId = String(Id);
         $.ajax({
@@ -206,7 +200,7 @@ function Mark(taskId) {
     });
 }
 
-//Function for clearing the textboxes
+//Function for clearing the inputs
 function clearTextBox() {
     $('#taskDetails').val("");
     $('#taskDetailsEditInput').val("");
@@ -220,7 +214,7 @@ $(".dropdown-menu a").click(function(){
     let text = $(this).text();
     let value = ConverrDropdownText(text);
 
-    // save filter to localStorage
+    // save filter data to localStorage
     localStorage.setItem('taskFilter', value);
     
     SortDataAndLoad()
@@ -255,7 +249,6 @@ function ConverrDropdownText(text){
     else if (text == "Show completed"){
         result = "show_completed"
     }
-
     
     return result;
 }

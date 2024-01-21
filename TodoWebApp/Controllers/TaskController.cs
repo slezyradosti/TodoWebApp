@@ -22,8 +22,6 @@ public class TaskController : BaseController
     [HttpGet("List")]
     public async Task<IActionResult> TaskList()
     {
-    //     var result = await _taskHandler.GetTaskListAsync();
-    //     return Json(result.Value);
         return HandleResult(await _taskHandler.GetTaskListAsync());
     }
     

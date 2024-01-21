@@ -1,5 +1,4 @@
-﻿using Models;
-using Task = Models.Task;
+﻿using Task = Models.Task;
 
 namespace Repository.Repos.Interfaces
 {
