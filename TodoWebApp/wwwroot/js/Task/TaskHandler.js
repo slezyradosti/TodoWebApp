@@ -20,23 +20,30 @@ function loadData() {
                         let checkboxId = "checkbox" + item.id;
                         if (item.isDone) {
                             html += '<input class="form-check-input" type="checkbox" value="" id="'+checkboxId+'" onchange=Mark("'+item.id+'") checked>';
+                            html +=  '<s>' + item.details + '</s>' + '</br>';
                         }
                         else {
                             html += '<input class="form-check-input" type="checkbox" value="" id="'+checkboxId+'" onchange=Mark("'+item.id+'") >';
+                            html +=   item.details + '</br>';
                         }
-                            
-                        html +=   item.details + '</br>';
                         
                     html += '</div>';
                 html += '</div>';
-                html += '<span class="badge bg-primary rounded-pill">';
-                    html += '<button href="#" onclick="return getbyID("'+item.id+'")">Edit</button>'
-                html += '</span>';
+                
+                //edit
+                // html += '<span class="badge bg-primary rounded-pill">';
+                //     html += '<button href="#" onclick="return getbyID("'+item.id+'")">Edit</button>'
+                // html += '</span>';
+                <!-- Button trigger modal -->
+                
+                // working
+                html += '<button href="#" onclick=getbyID("'+item.id+'")>Edit</button>'
+                
+                // delete
                 html += '<span class="badge bg-primary rounded-pill">';
                     html +=  '<button href="#" onclick=Delete("'+item.id+'")>Delete</button>'
                 html += '</span>';
-                
-               // html += '<td><a href="#" onclick="return getbyID(' + item.Id + ')">Edit</a> | <a href="#" onclick="Delele(' + item.Id + ')">Delete</a></td>';
+                    
                 html += '</tr>';
             });
             $('#taskList').html(html);
@@ -88,26 +95,23 @@ function validate() {
 }
 
 //Function for getting the Data Based upon Employee ID
-function getbyID(EmpID) {
+function getbyID(id) {
     $('#Name').css('border-color', 'lightgrey');
     $('#Age').css('border-color', 'lightgrey');
     $('#State').css('border-color', 'lightgrey');
     $('#Country').css('border-color', 'lightgrey');
     $.ajax({
-        url: "/Home/getbyID/" + EmpID,
+        url: "/Task/" + id,
         typr: "GET",
         contentType: "application/json;charset=UTF-8",
         dataType: "json",
         success: function (result) {
-            $('#EmployeeID').val(result.EmployeeID);
-            $('#Name').val(result.Name);
-            $('#Age').val(result.Age);
-            $('#State').val(result.State);
-            $('#Country').val(result.Country);
-
-            $('#myModal').modal('show');
-            $('#btnUpdate').show();
-            $('#btnAdd').hide();
+            $('#taskIdEdit').val(result.value.id);
+            $('#taskDetailsEditInput').val(result.value.details);
+            
+            $('#exampleModal').modal('show');
+            $("#btnTaskUpdate").click(Update);
+            // $('#btnAdd').hide();
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -119,11 +123,12 @@ function getbyID(EmpID) {
 //function for updating employee's record
 function Update() {
     var task = {
-        Details: $('#taskDetails').val(),
+        Id: $('#taskIdEdit').val(),
+        Details: $('#taskDetailsEditInput').val(),
     };
     
     $.ajax({
-        url: "/Task",
+        url: "/Task/" + task.Id,
         data: JSON.stringify(task),
         type: "PUT",
         contentType: "application/json;charset=utf-8",
@@ -131,6 +136,7 @@ function Update() {
         success: function (result) {
             loadData();
             $('#taskDetails').val("");
+            $('#exampleModal').modal('hide');
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -181,3 +187,7 @@ function Mark(taskId) {
 function clearTextBox() {
     $('#taskDetails').val("");
 }
+
+$('#myModal').on('shown.bs.modal', function () {
+    $('#myInput').trigger('focus')
+})

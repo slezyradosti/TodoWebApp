@@ -3,6 +3,6 @@
     public class TaskDto : BaseDto
     {
         public string Details { get; set; }
-        public bool IsDone { get; set; } = false;
+        public bool? IsDone { get; set; } = false;
     }
 }

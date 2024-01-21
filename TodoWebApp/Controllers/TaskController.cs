@@ -27,12 +27,11 @@ public class TaskController : BaseController
         return Json(result.Value);
     }
     
-    // [HttpGet("{id}")]
-    // public async Task<IActionResult> TaskDetails(Guid id)
-    // {
-    //     var result = await _taskHandler.GetTaskAsync(id);
-    //     return View(result);
-    // }
+    [HttpGet("{id}")]
+    public async Task<IActionResult> TaskDetails(Guid id)
+    {
+        return HandleResult(await _taskHandler.GetTaskAsync(id));
+    }
     
     [HttpPost]
     public async Task<IActionResult> CreateTask([FromBody] TaskDto taskDto)
@@ -41,7 +40,7 @@ public class TaskController : BaseController
     }
     
     [HttpPut("{id}")]
-    public async Task<IActionResult> EditTask(Guid id, TaskDto taskDto)
+    public async Task<IActionResult> EditTask(Guid id, [FromBody] TaskDto taskDto)
     {
         taskDto.Id = id;
         return HandleResult(await _taskHandler.EditTaskAsync(taskDto));

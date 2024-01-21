@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Repository\Repository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\Models\Task.js" />
+  </ItemGroup>
+
 </Project>
